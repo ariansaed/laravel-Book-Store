@@ -827,7 +827,6 @@ textarea {
 .header__logo {
     height: 44px;
     width: 200px;
-    background: url("../img/weblogo.png") no-repeat;
     margin-top: -10px;
     margin-right: 20px;
 }
@@ -924,8 +923,8 @@ textarea {
     width: calc(100% + 10px);
 }
 
-.margin-left-10 {
-    margin-left: 10px;
+.margin-left-50 {
+    margin-left: 50px;
 }
 
 .margin-bottom-12-p p {

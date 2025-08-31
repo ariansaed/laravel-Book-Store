@@ -12,6 +12,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'home'])->name('hom
 Route::middleware(('auth'))->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users',App\Http\Controllers\Admin\UserController::class);
 });
 
 

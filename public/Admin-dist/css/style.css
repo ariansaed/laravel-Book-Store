@@ -775,7 +775,7 @@ textarea {
 
 .box__camera::before {
     content: '';
-    background: url(../img/camera.svg) no-repeat 50%;
+    /*background: url(../img/camera.svg) no-repeat 50%;*/
     background-size: auto;
     background-size: auto;
     background-size: cover;

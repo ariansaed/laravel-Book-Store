@@ -20,14 +20,9 @@ return new class extends Migration
             $table->string('image');
             $table->decimal('price',10,2);
             $table->integer('stock');
-
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
 

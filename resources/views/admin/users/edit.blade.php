@@ -17,7 +17,7 @@
                     <input type="password" name="confirm-pass" required placeholder="تایید رمز عبور را وارد کنید"
                            class="text">
                     <a href="#">
-                        <button class="btn btn-netcopy_net">اضافه کردن</button>
+                        <button class="btn btn-netcopy_net">  اضافه کردن</button>
                     </a>
                 </form>
             </div>

@@ -13,11 +13,11 @@
                     </div>
                 </div>
             </div>
-            <a href="" class="logout" title="خروج"></a>
+            <a href="{{ route('logout') }}" class="logout" title="خروج"></a>
         </div>
     </div>
     <div class="breadcrumb">
         <ul>
-            <li><a href="{{route('admin.dashboard')}}" title="پیشخوان">پیشخوان</a></li>
+            <li><a href="{{ route('admin.dashboard') }}" title="پیشخوان">پیشخوان</a></li>
         </ul>
     </div>

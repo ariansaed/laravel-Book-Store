@@ -5,20 +5,13 @@
             <div class="col-8 margin-left-50 margin-bottom-15 border-radius-3">
             </div>
             <div class="col-6 bg-white">
-                <p class="box__title">ویرایش کاربر</p>
-                <form action="{{route('admin.users.update',$user)}}" method="post" class="padding-30">
+                <p class="box__title"> ویرایش عنوان </p>
+                <form action="{{ route('admin.categories.update', $category) }}" method="post" class="padding-30">
                     @csrf
                     @method('PUT')
-                    <input type="text" name="name" value="{{$user->name}}" required
-                           placeholder=" نام کاربر را وارد کنید" class="text">
-                    <input type="email" name="email" value="{{$user->email}}" required placeholder="ایمیل را وارد کنید"
-                           class="text">
-                    <input type="password" name="password" required placeholder="رمز عبور را وارد کنید" class="text">
-                    <input type="password" name="confirm-pass" required placeholder="تایید رمز عبور را وارد کنید"
-                           class="text">
-                    <a href="#">
-                        <button class="btn btn-netcopy_net">اضافه کردن</button>
-                    </a>
+                    <input type="text" name="name" value="{{ $category->name }}" required
+                        placeholder="عنوان را وارد کنید" class="text">
+                    <button type="submit" class="btn btn-netcopy_net">ویرایش دسته</button>
                 </form>
             </div>
         </div>

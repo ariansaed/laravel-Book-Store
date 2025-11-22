@@ -9,7 +9,7 @@
             <div id="search-btn" class="fas fa-search"></div>
             <a href="#" class="fas fa-heart"></a>
             <a href="#" class="fas fa-shopping-cart"></a>
-            <a href="login.html" class="fas fa-user"></a>
+            <a href="{{route('admin.dashboard')}}" class="fas fa-user"></a>
         </div>
     </div>
     <div class="header-2">

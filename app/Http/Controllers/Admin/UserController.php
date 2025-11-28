@@ -42,7 +42,6 @@ class UserController extends Controller
                 return response()->json([
                     'status'  => 'success',
                     'message' => $message,
-                    'user'    => $user
                 ], 201); // 201 Created — استاندارد REST
             }
             return redirect()->back()->with('success', $message);

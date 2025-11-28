@@ -26,32 +26,44 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-            User::create([
+            // 1. گرفتن role از درخواست (پیش‌فرض 'user')
+            $role = $request->input('role', 'user');
+            // 2. ایجاد کاربر جدید با Model User
+            $user = User::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
-                'role'     => $request->input('role', 'user'),
+                'role'     => $role,
             ]);
+            // 3. پیام موفقیت
             $message = 'کاربر با موفقیت ایجاد شد';
+            // 4. پاسخ بر اساس نوع درخواست
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'status'  => 'success',
                     'message' => $message,
-                ], 201);
+                    'user'    => $user
+                ], 201); // 201 Created — استاندارد REST
             }
             return redirect()->back()->with('success', $message);
         } catch (\Exception $e) {
-            Log::error('User creation failed: ' . $e->getMessage());
-
+            // لاگ خطا (فقط تو سرور می‌مونه — کاربر نمی‌بینه)
+            Log::error('خطا در ایجاد کاربر: ' . $e->getMessage(), [
+                'email' => $request->email,
+                'trace' => $e->getTraceAsString()
+            ]);
+            // پیام خطا برای کاربر (امن و عمومی)
+            $errorMessage = 'خطایی در ایجاد کاربر رخ داد. لطفاً دوباره تلاش کنید.';
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'status'  => 'error',
-                    'message' => 'خطایی در ایجاد کاربر رخ داد. لطفاً دوباره تلاش کنید.'
+                    'message' => $errorMessage
                 ], 500);
             }
-            return redirect()->back()->with('error', 'خطایی رخ داد. لطفاً دوباره تلاش کنید.');
+            return redirect()->back()->with('error', $errorMessage);
         }
     }
+
     public function show(string $id)
     {
         //

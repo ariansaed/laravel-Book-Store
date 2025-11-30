@@ -40,5 +40,5 @@
         <a href="#" class="fab fa-linkedin"></a>
         <a href="#" class="fab fa-pinterest"></a>
     </div>
-    <div class="credit"> فارسی و راست چین شده توسط <a href="https://netcopy.ir"><span>نت کپی</span></a></div>
+    <div class="credit"> طراحی و توسعه توسط برنامه نویس: <a href="https://github.com/ariansaed"><span>آرین ساعد</span></a></div>
 </section>

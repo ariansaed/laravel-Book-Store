@@ -22,12 +22,14 @@
 @yield('content')
 
 @include('front.Footer')
-<!-- footer section ends -->
+ <!-- footer section ends -->
 <!-- loader  -->
-{{-- <div class="loader-container">
+
+ {{-- <div class="loader-container">
     <img src="{{asset('Book-dist/image/loader-img.gif')}}" alt="">
-</div> --}}
-<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+</div>  --}}
+
+<script src="{{ asset('Book-dist/js/swiper-bundle.min.js') }}"></script>
 <!-- custom js file link  -->
 <script src="{{asset('Book-dist/js/script.js')}}"></script>
 </body>

@@ -18,5 +18,7 @@ Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () 
     Route::resource('users', UserController::class);
     Route::resource('categories', CategoryController::class);
     Route::post('categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
+    Route::post('users/{user}/restore', [UserController::class, 'restore'])->name('users.restore');
+
 });
 route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

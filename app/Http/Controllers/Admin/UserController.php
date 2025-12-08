@@ -12,9 +12,14 @@ use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->get();
+        $data = $request->all();
+        if (isset($data['type']) && $data['type'] == 'deleted') {
+            $users = User::onlyTrashed()->latest()->get();
+        } else {
+            $users = User::latest()->get();
+        }
         return view('admin.users.index', compact('users'));
     }
 
@@ -26,32 +31,26 @@ class UserController extends Controller
     public function store(StoreUserRequest $request)
     {
         try {
-            // 1. گرفتن role از درخواست (پیش‌فرض 'user')
             $role = $request->input('role', 'user');
-            // 2. ایجاد کاربر جدید با Model User
             $user = User::create([
                 'name'     => $request->name,
                 'email'    => $request->email,
                 'password' => Hash::make($request->password),
                 'role'     => $role,
             ]);
-            // 3. پیام موفقیت
             $message = 'کاربر با موفقیت ایجاد شد';
-            // 4. پاسخ بر اساس نوع درخواست
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
                     'status'  => 'success',
                     'message' => $message,
-                ], 201); // 201 Created — استاندارد REST
+                ], 201);
             }
             return redirect()->back()->with('success', $message);
         } catch (\Exception $e) {
-            // لاگ خطا (فقط تو سرور می‌مونه — کاربر نمی‌بینه)
             Log::error('خطا در ایجاد کاربر: ' . $e->getMessage(), [
                 'email' => $request->email,
                 'trace' => $e->getTraceAsString()
             ]);
-            // پیام خطا برای کاربر (امن و عمومی)
             $errorMessage = 'خطایی در ایجاد کاربر رخ داد. لطفاً دوباره تلاش کنید.';
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
@@ -108,12 +107,12 @@ class UserController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'کاربر با موفقیت حذف شد.',
-        ]);
+        ],200);
     }
 
-    public function restore($userId)
+    public function restore($user)
     {
-        $user = User::withTrashed()->find($userId);
+        $user = User::onlyTrashed()->where('id', $user)->first();
         if (!$user) {
             return response()->json([
                 'success' => true,

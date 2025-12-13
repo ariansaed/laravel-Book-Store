@@ -18,6 +18,10 @@
         <li class="item-li "><b>مدیریت گروه بندی ها</b></li>
         <li class="item-li i-categories"><a href="{{route('admin.categories.create')}}">ایجاد گروه بندی </a></li>
         <li class="item-li i-courses "><a href="{{route('admin.categories.index')}}">لیست گروه بندی ها</a></li>
+         <li class="item-li "><b>مدیریت محصولات</b></li>
+        <li class="item-li i-categories"><a href="{{route('admin.products.create')}}">ایجاد محصول </a></li>
+        <li class="item-li i-courses "><a href="{{route('admin.products.index')}}">لیست محصولات</a></li>
+
 
 
         {{--        <li class="item-li i-slideshow"><a href="slideshow.html">اسلایدشو</a></li>--}}

@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="{{ asset('Admin-dist/css/responsive_991.css') }}" media="(max-width:991px)">
     <link rel="stylesheet" href="{{ asset('Admin-dist/css/responsive_768.css') }}" media="(max-width:768px)">
     <link rel="stylesheet" href="{{ asset('Admin-dist/css/font.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 
 <body>
@@ -27,5 +29,8 @@
 <script src="{{ asset('Admin-dist/js/jquery-3.6.0.min.js') }}"></script>
 {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
 @yield('script')
+@section('script')
+    <script src="{{ asset('Admin-dist/js/form-scripts.js') }}"></script>
+@endsection
 
 </html>

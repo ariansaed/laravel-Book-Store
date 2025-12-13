@@ -46,7 +46,8 @@ class UserController extends Controller
                 ], 201);
             }
             return redirect()->back()->with('success', $message);
-        } catch (\Exception $e) {
+        } 
+        catch (\Exception $e) {
             Log::error('خطا در ایجاد کاربر: ' . $e->getMessage(), [
                 'email' => $request->email,
                 'trace' => $e->getTraceAsString()

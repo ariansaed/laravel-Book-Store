@@ -46,8 +46,7 @@ class UserController extends Controller
                 ], 201);
             }
             return redirect()->back()->with('success', $message);
-        } 
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             Log::error('خطا در ایجاد کاربر: ' . $e->getMessage(), [
                 'email' => $request->email,
                 'trace' => $e->getTraceAsString()
@@ -98,32 +97,43 @@ class UserController extends Controller
 
     public function destroy(User $user)
     {
-        if (!$user) {
+        try {
+            $user->delete();
+
             return response()->json([
                 'success' => true,
-                'message' => ' !آیتم مورد نظر یافت نشد',
-            ], 404);
-        }
-        $user->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'کاربر با موفقیت حذف شد.',
-        ],200);
-    }
+                'message' => 'کاربر با موفقیت حذف شد.',
+            ], 200);
+        } catch (\Throwable $e) {
 
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در حذف کاربر',
+                // 'error' => $e->getMessage(), // فقط برای دیباگ
+            ], 500);
+        }
+    }
     public function restore($user)
     {
-        $user = User::onlyTrashed()->where('id', $user)->first();
-        if (!$user) {
+        try {
+            $user = User::onlyTrashed()->where('id', $user)->first();
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'آیتم مورد نظر یافت نشد!',
+                ], 404);
+            }
+            $user->restore();
             return response()->json([
                 'success' => true,
-                'message' => ' !آیتم مورد نظر یافت نشد',
-            ], 404);
+                'message' => 'کاربر با موفقیت بازیابی شد.',
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در بازیابی کاربر',
+                'error' => $e->getMessage(),
+            ], 500);
         }
-        $user->restore();
-        return response()->json([
-            'success' => true,
-            'message' => 'کاربر با موفقیت بازیابی شد.',
-        ]);
     }
 }

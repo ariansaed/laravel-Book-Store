@@ -41,7 +41,7 @@
                             <a href="#" target="_blank" class="item-eye mlg-15" title="مشاهده"></a>
                             @if ($user->trashed())
                                 <a href="#" data-url="{{ route('admin.users.restore', $user) }}"
-                                    class="mlg-15 delete-item restore-item">بازگرداندن </a>
+                                    class="mlg-15 restore-item">بازگرداندن </a>
                             @else
                                 <a href="#" data-url="{{ route('admin.users.destroy', $user) }}"
                                     class="item-delete mlg-15 delete-item" title="حذف">

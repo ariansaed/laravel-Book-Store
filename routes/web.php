@@ -25,6 +25,6 @@ Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () 
     Route::post('categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
     // روت محصولات 
     Route::resource('products', ProductController::class);
-    Route::post('products/{product}/restore', [CategoryController::class, 'restore'])->name('products.restore');
+    Route::post('products/{slug}/restore', [ProductController::class, 'restore'])->name('products.restore');
 });
 route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

@@ -1,0 +1,116 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\BlogStoreRequest;
+use App\Http\Requests\BlogUpadateRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use App\Models\blog;
+use Illuminate\Support\Facades\Log;
+use PhpParser\Node\Stmt\TryCatch;
+
+class BlogController extends Controller
+{
+    public function index(Request $request)
+    {
+        $data = $request->all();
+        if (isset($data['type']) && $data['type'] == 'deleted') {
+            $blogs = blog::onlyTrashed()->latest()->get();
+        } else {
+            $blogs = blog::latest()->get();
+        }
+        return view('admin.blogs.index', compact('blogs'));
+    }
+    public function create(Request $request)
+    {
+        return view('admin.blogs.create');
+    }
+    public function store(BlogStoreRequest $request)
+    {
+        try {
+            $data = $request->validated();
+            $data['slug'] = Str::slug($data['name']);
+            blog::create($data);
+            $message = 'عملیات با موفقیت ایجاد شد';
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => $message,
+                ], 201);
+            }
+            return redirect()->route('admin.blogs.index')->with('success', $message);
+        } catch (\Exception $e) {
+            Log::error('خطا در ایجاد عملیات: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $errorMessage = 'خطایی در ایجاد عملیات رخ داد. لطفاً دوباره تلاش کنید.';
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $errorMessage,
+                ], 500);
+            }
+            return redirect()->back()->with('error', $errorMessage);
+        }
+    }
+    public function show(string $id)
+    {
+        //
+    }
+    public function edit(blog $blog)
+    {
+        return view('admin.blogs.edit', compact('blog'));
+    }
+    public function update(BlogUpadateRequest $request, Blog $blog)
+    {
+        try {
+            $data = $request->validated();
+            $blog->update($data);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'ویرایش موفقیت آمیز'
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('خطا در بروزرسانی مطلب', [
+                'error'      => $e->getMessage(),
+                'trace'      => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'status'  => 'error',
+                'message' => 'خطایی در ویرایش رخ داد. لطفاً دوباره تلاش کنید.',
+            ], 500);
+        }
+    }
+    public function destroy(blog $blog)
+    {
+        try {
+            $blog->delete();
+            return response()->json([
+                'success' => true,
+                'message' => 'مطلب با موفقیت حذف شد'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'خطا در حذف مطلب'
+            ], 404);
+        }
+    }
+    public function restore($slug)
+    {
+        $blog = blog::onlyTrashed()->where('slug', $slug)->first();
+        if (!$blog) {
+            return response()->json([
+                'success' => false,
+                'message' => 'آیتم مورد نظر یافت نشد',
+            ], 404);
+        }
+        $blog->restore();
+        return response()->json([
+            'success' => true,
+            'message' => 'مطلب با موفقیت بازیابی شد',
+        ], 200);
+    }
+}

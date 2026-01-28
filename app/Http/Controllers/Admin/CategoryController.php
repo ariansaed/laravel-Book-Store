@@ -37,14 +37,27 @@ class CategoryController extends Controller
                 'name' => $validated['name'],
                 'slug' => Str::slug($validated['name']),
             ]);
-            return redirect()
-                ->back()
-                ->with('success', 'دسته بندی ایجاد شد');
-        } catch (\Throwable $e) {
-            Log::error('Category Store Error: ' . $e->getMessage());
-            return redirect()
-                ->back()
-                ->with('error', 'خطا در ثبت اطلاعات!');
+            $message = 'دسته بندی با موفقیت ایجاد شد';
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'status' => 'success',
+                    'message' => $message,
+                ], 201);
+            }
+            return redirect()->route('admin.categories.index')->with('success', $message);
+        } catch (\Exception $e) {
+            Log::error('خطا در ایجاد دسته بندی: ' . $e->getMessage(), [
+                'trace' => $e->getTraceAsString(),
+            ]);
+            $errorMessage = 'خطایی در ایجاد دسته بندی رخ داد. لطفاً دوباره تلاش کنید.';
+            if ($request->wantsJson() || $request->ajax()) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $errorMessage,
+                ], 500);
+            }
+
+            return redirect()->back()->with('error', $errorMessage);
         }
     }
 

@@ -17,7 +17,6 @@
                     <th>درج کننده</th>
                     <th>حذف</th>
                     <th>ویرایش</th>
-
                 </tr>
             </thead>
             <tbody>
@@ -49,7 +48,6 @@
                 @else
                     <tr>
                         <td colspan="8" class="text-center">خالی</td>
-
                     </tr>
                 @endif
 

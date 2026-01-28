@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+<script src="{{ asset('Admin-dist/js/create-form.js') }}"></script>
 @section('content')
     <div class="main-content padding-0 categories">
         <div class="row no-gutters  ">
@@ -6,7 +7,7 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title">ویرایش کاربر</p>
-                <form action="{{route('admin.users.update',$user)}}" method="post" class="padding-30">
+                <form id="update-form" action="{{route('admin.users.update',$user)}}" method="post" class="padding-30">
                     @csrf
                     @method('PUT')
                     <input type="text" name="name" value="{{$user->name}}" required
@@ -17,7 +18,7 @@
                     <input type="password" name="confirm-pass" required placeholder="تایید رمز عبور را وارد کنید"
                            class="text">
                     <a href="#">
-                        <button class="btn btn-netcopy_net">  اضافه کردن</button>
+                        <button type="submit" class="btn btn-netcopy_net">  اضافه کردن</button>
                     </a>
                 </form>
             </div>

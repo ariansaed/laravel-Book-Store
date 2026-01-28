@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 @section('script')
+<script src="{{ asset('Admin-dist/js/update-form.js') }}"></script>
 @endsection
 @section('content')
     <div class="main-content padding-0 categories">
@@ -8,7 +9,7 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title"> ایجاد محصول </p>
-                <form id="productForm" action="{{ route('admin.products.update', $product) }}" method="post"
+                <form id="update-form" action="{{ route('admin.products.update', $product) }}" method="post"
                     class="padding-30">
                     @csrf
                     @method('PUT')
@@ -44,83 +45,6 @@
                             this.value = this.value.replace(/[^0-9]/g, '');
                         });
                     });
-                </script>
-                <script>
-                    // بروز کردن آیتم
-                    document
-                        .getElementById("productForm")
-                        .addEventListener("submit", async function(e) {
-                            e.preventDefault();
-                            const form = e.target;
-                            const url = form.action;
-                            const formData = new FormData(form);
-                            // 👇 برای هماهنگی با route update
-                            formData.append("_method", "PUT");
-                            Swal.fire({
-                                title: "در حال بروزرسانی ...",
-                                allowOutsideClick: false,
-                                didOpen: () => Swal.showLoading(),
-                            });
-                            try {
-                                const token = document
-                                    .querySelector('meta[name="csrf-token"]')
-                                    .getAttribute("content");
-                                const response = await fetch(url, {
-                                    method: "POST", // ❗️حتماً POST + _method=PUT
-                                    headers: {
-                                        "X-CSRF-TOKEN": token,
-                                        Accept: "application/json",
-                                    },
-                                    body: formData,
-                                });
-                                const data = await response.json().catch(() => ({}));
-                                Swal.close();
-                                if (response.ok && data.status === "success") {
-                                    Swal.fire({
-                                        title: "موفق!",
-                                        text: data.message || "محصول با موفقیت ویرایش شد.",
-                                        icon: "success",
-                                        showConfirmButton: false,
-                                        timer: 1500,
-                                    }).then(() => {
-                                        // انتخابی
-                                        // location.reload();
-                                    });
-                                } else {
-                                    let errorsHtml = "";
-
-                                    if (data.errors) {
-                                        errorsHtml =
-                                            '<ul style="text-align:right; padding-right:1em;">' +
-                                            Object.values(data.errors)
-                                            .flat()
-                                            .map((err) => `<li>${err}</li>`)
-                                            .join("") +
-                                            "</ul>";
-                                    } else if (data.message) {
-                                        errorsHtml = `<p>${data.message}</p>`;
-                                    } else {
-                                        errorsHtml =
-                                            "<p>خطایی رخ داد. لطفاً دوباره تلاش کنید.</p>";
-                                    }
-                                    Swal.fire({
-                                        title: "خطا!",
-                                        html: errorsHtml,
-                                        icon: "error",
-                                        confirmButtonText: "باشه",
-                                    });
-                                }
-                            } catch (err) {
-                                Swal.close();
-                                Swal.fire({
-                                    title: "خطای شبکه",
-                                    text: "ارتباط با سرور برقرار نشد.",
-                                    icon: "error",
-                                    confirmButtonText: "باشه",
-                                });
-                                console.error(err);
-                            }
-                        });
                 </script>
             </div>
         </div>

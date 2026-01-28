@@ -25,8 +25,8 @@
 </body>
 <script src="{{ asset('Admin-dist/js/jquery-3.4.1.min.js') }}"></script>
 <script src="{{ asset('Admin-dist/js/js.js') }}"></script>
-<script src="{{ asset('admin-dist/js/SweetAlert2.js') }}"></script>
 <script src="{{ asset('Admin-dist/js/jquery-3.6.0.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {{-- @vite(['resources/js/app.js', 'resources/css/app.css']) --}}
 @yield('script')
 @section('script')

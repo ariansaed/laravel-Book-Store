@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -26,5 +27,8 @@ Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () 
     // روت محصولات 
     Route::resource('products', ProductController::class);
     Route::post('products/{slug}/restore', [ProductController::class, 'restore'])->name('products.restore');
+    // روت بلاگ
+    Route::resource('blogs', BlogController::class);
+    Route::post('blogs/{blog}/restore',[BlogController::class,'restore'])->name('blogs.restore');
 });
 route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

@@ -1,18 +1,8 @@
 $(document).ready(function () {
-    // تابع helper برای highlight کردن ردیف
-    function highlightRow(row, color = "#d4edda") {
-        row.css("background-color", color);
-        setTimeout(() => {
-            row.css("background-color", "");
-        }, 1000); // 1 ثانیه بعد رنگ برمی‌گرده به حالت عادی
-    }
-    // حذف آیتم
     $("body").on("click", ".delete-item", function (e) {
         e.preventDefault();
-
         const action = $(this).data("url");
         const row = $(this).closest("tr");
-
         Swal.fire({
             title: "آیا مطمئنی؟",
             text: "این آیتم حذف خواهد شد!",
@@ -29,7 +19,7 @@ $(document).ready(function () {
                     method: "DELETE",
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                            "content"
+                            "content",
                         ),
                     },
                     success: function (response) {
@@ -52,12 +42,12 @@ $(document).ready(function () {
 $("body").on("click", ".restore-item", function (e) {
     e.preventDefault();
 
+    const trashRow = $(this).closest("tr");
     const action = $(this).data("url");
-    const row = $(this).closest("tr");
 
     Swal.fire({
         title: "بازگردانی آیتم",
-        text: "این آیتم بازگردانی خواهد شد!",
+        text: "آیا مطمئن هستید که می‌خواهید این آیتم بازگردانی شود؟",
         icon: "question",
         showCancelButton: true,
         confirmButtonColor: "#28a745",
@@ -65,112 +55,58 @@ $("body").on("click", ".restore-item", function (e) {
         confirmButtonText: "بله، بازگردانی کن!",
         cancelButtonText: "انصراف",
     }).then((result) => {
-        if (result.isConfirmed) {
-            $.ajax({
-                url: action,
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                success: function (response) {
-                    Swal.fire("بازگردانی شد!", response.message, "success");
+        if (!result.isConfirmed) return;
 
-                    // highlight ردیف برای جلب توجه
-                    highlightRow(row, "#d4edda");
+        $.ajax({
+            url: action,
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            success: function (response) {
+                Swal.fire("بازگردانی شد!", response.message, "success");
 
-                    // تغییر لینک و کلاس‌ها بدون reload
-                    row.find(".restore-item")
-                        .removeClass("restore-item")
-                        .addClass("delete-item")
-                        .attr("title", "حذف")
-                        .data("url", response.delete_url) // مطمئن شو URL حذف برگشت داده شده
-                        .html('<i class="fa fa-trash"></i>');
-                },
-                error: function (response) {
-                    response = response.responseJSON;
-                    Swal.fire("خطا!", response.message, "error");
-                },
-            });
-        }
+                // هایلایت ردیف در جدول Trash قبل از انتقال
+                highlightRow(trashRow, "#d4edda");
+
+                // حذف ردیف از جدول Trash
+                trashRow.fadeOut(400, function () {
+                    $(this).remove();
+                });
+
+                // آماده سازی ردیف برای جدول اصلی
+                const newRow = $(response.row_html); // فرض: سرور HTML ردیف کامل برمی‌گردونه
+
+                // اضافه کردن دکمه حذف با کلاس delete-item
+                newRow
+                    .find(".restore-item")
+                    .removeClass("restore-item btn-success")
+                    .addClass("delete-item btn-danger")
+                    .attr("title", "حذف")
+                    .data("url", response.delete_url)
+                    .html('<i class="fa fa-trash"></i>');
+
+                // اضافه کردن ردیف به جدول اصلی بدون reload
+                $("#main-table tbody").prepend(newRow);
+
+                // هایلایت کوتاه ردیف جدید
+                highlightRow(newRow, "#d4edda");
+            },
+            error: function (xhr) {
+                const res = xhr.responseJSON;
+                Swal.fire(
+                    "خطا!",
+                    res?.message || "خطایی رخ داد. دوباره تلاش کنید.",
+                    "error",
+                );
+            },
+        });
     });
 });
-// اسکریپت فرم ایجاد کاربر
-document
-    .getElementById("userform")
-    .addEventListener("submit", async function (e) {
-        e.preventDefault();
 
-        const form = e.target;
-        const url = form.action;
-        const formData = new FormData(form);
-
-        Swal.fire({
-            title: "در حال ارسال ...",
-            allowOutsideClick: false,
-            didOpen: () => Swal.showLoading(),
-        });
-
-        try {
-            const token = document
-                .querySelector('meta[name="csrf-token"]')
-                .getAttribute("content");
-
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "X-CSRF-TOKEN": token,
-                    Accept: "application/json",
-                },
-                body: formData,
-            });
-
-            const data = await response.json().catch(() => ({}));
-
-            Swal.close();
-
-            if (response.ok && data.status === "success") {
-                Swal.fire({
-                    title: "موفق!",
-                    text: data.message || "عملیات با موفقیت انجام شد.",
-                    icon: "success",
-                    showConfirmButton: false,
-                    timer: 1500,
-                }).then(() => {
-                    form.reset();
-                });
-            } else {
-                let errorsHtml = "";
-                if (data.errors && Array.isArray(data.errors)) {
-                    errorsHtml =
-                        '<ul style="text-align: right; padding-right: 1em;">' +
-                        data.errors
-                            .map((err) => "<li>" + err + "</li>")
-                            .join("") +
-                        "</ul>";
-                } else if (data.message) {
-                    errorsHtml = "<p>" + data.message + "</p>";
-                } else {
-                    errorsHtml = "<p>خطایی رخ داد. لطفا دوباره تلاش کنید.</p>";
-                }
-
-                Swal.fire({
-                    title: "خطا!",
-                    html: errorsHtml,
-                    icon: "error",
-                    confirmButtonText: "باشه",
-                });
-            }
-        } catch (err) {
-            Swal.close();
-            Swal.fire({
-                title: "خطای شبکه",
-                text: "ارتباط با سرور برقرار نشد. اینترنت یا سرور را بررسی کنید.",
-                icon: "error",
-                confirmButtonText: "باشه",
-            });
-            console.error(err);
-        }
-    });
-// اسکریپت فرم ایجاد محصولات
+// تابع highlight اختیاری برای جلب توجه
+function highlightRow(row, color = "#d4edda") {
+    const original = row.css("background-color");
+    row.css("background-color", color);
+    setTimeout(() => row.css("background-color", original), 1200);
+}

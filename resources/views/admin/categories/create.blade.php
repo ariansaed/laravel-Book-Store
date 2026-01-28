@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+    <script src="{{ asset('Admin-dist/js/create-form.js') }}"></script>
 @section('content')
     <div class="main-content padding-0 categories">
         <div class="row no-gutters  ">
@@ -6,7 +7,7 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title"> ایجاد گروه بندی </p>
-                <form id="categoryForm" action="{{ route('admin.categories.store') }}" method="post" class="padding-30">
+                <form id="store-form" action="{{ route('admin.categories.store') }}" method="post" class="padding-30">
                     @csrf
                     <input type="text" name="name" required placeholder=" عنوان " class="text">
                     <input type="submit" id="addCategory" class="btn btn-netcopy_net" value="اضافه کردن">

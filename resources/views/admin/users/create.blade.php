@@ -1,5 +1,6 @@
 @extends('admin.layouts.app')
 <script src="{{ asset('Admin-dist/js/form-scripts.js') }}"></script>
+    <script src="{{ asset('Admin-dist/js/create-form.js') }}"></script>
 @section('content')
     <div class="main-content padding-0 categories">
         <div class="row no-gutters  ">
@@ -7,7 +8,7 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title">ایجاد کاربر </p>
-                <form id="userform" action="{{ route('admin.users.store') }}" method="POST" class="padding-30">
+                <form id="store-form" action="{{ route('admin.users.store') }}" method="POST" class="padding-30">
                     @csrf
                     <input type="text" name="name" required placeholder="نام کاربر را وارد کنید" class="text">
                     <input type="email" name="email" required placeholder="ایمیل را وارد کنید" class="text">

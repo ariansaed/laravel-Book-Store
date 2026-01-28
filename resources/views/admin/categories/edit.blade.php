@@ -1,4 +1,5 @@
 @extends('admin.layouts.app')
+<script src="{{ asset('Admin-dist/js/update-form.js') }}"></script>
 @section('content')
     <div class="main-content padding-0 categories">
         <div class="row no-gutters  ">
@@ -6,7 +7,7 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title"> ویرایش عنوان </p>
-                <form action="{{ route('admin.categories.update', $category) }}" method="post" class="padding-30">
+                <form id="update-form" action="{{ route('admin.categories.update', $category) }}" method="post" class="padding-30">
                     @csrf
                     @method('PUT')
                     <input type="text" name="name" value="{{ $category->name }}" required

@@ -117,7 +117,7 @@ class ProductController extends Controller
         $product = Product::onlyTrashed()->where('slug', $slug)->first();
         if (!$product) {
             return response()->json([
-                'success' => true,
+                'success' => false,
                 'message' => 'آیتم مورد نظر یافت نشد',
             ], 404);
         }

@@ -7,7 +7,8 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title"> ایجاد مطلب </p>
-                <form id="store-form" action="{{ route('admin.blogs.store') }}" method="post" class="padding-30">
+                <form id="store-form" action="{{ route('admin.blogs.store') }}" method="post" class="padding-30"
+                    enctype="multipart/form-data">
                     @csrf
                     <label for="inputName">نام عنوان</label>
                     <input type="text" required name="name" id="inputName" placeholder=" نام عنوان " class="text">

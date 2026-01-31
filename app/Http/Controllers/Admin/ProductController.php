@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UploadHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -38,9 +39,9 @@ class ProductController extends Controller
             $data['slug'] = Str::slug($data['name']);
             $data['user_id'] = Auth::id();
             if ($request->hasFile('image')) {
-                $data['image'] = $request->file('image')->store('products', 'public');
+                $data = UploadHelper::UploadImage($request->file('image'), 'product_image');
             }
-            $product = Product::create($data);
+            Product::create($data);
             $message = 'محصول با موفقیت ایجاد شد';
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
@@ -78,7 +79,19 @@ class ProductController extends Controller
         try {
             // ✅ بروزرسانی محصول
             $data = $request->validated();
-            $product->update($data);
+            $product->name = $data['name'];
+            $product->category_id = $data['category_id'];
+            $product->description = $data['description'];
+            if ($request->hasFile('image')) {
+                $imagePath = UploadHelper::UploadImage($request->file('image'), 'product_image');
+                if ($product->image) {
+                    UploadHelper::DeleteImage($product->image);
+                }
+                $product->image = $imagePath;
+            }
+            $product->price = $data['price'];
+            $product->stock = $data['stock'];
+            $product->save();
             return response()->json([
                 'status'  => 'success',
                 'message' => 'محصول با موفقیت ویرایش شد',

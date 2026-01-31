@@ -10,6 +10,7 @@
                 <tr role="row" class="title-row">
                     <th>شناسه</th>
                     <th>نام </th>
+                    <th>تصویر </th>
                     <th> دسته بندی </th>
                     <th>قیمت</th>
                     <th>موجودی</th>
@@ -25,6 +26,10 @@
                         <tr role="row">
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $product->name }}</td>
+                            <td>
+                                <img src="{{ asset('storage/' . $product->image) }}" style="max-width: 90px;"
+                                    alt="{{ $product->image }}">
+                            </td>
                             <td>{{ $product->category->name }}</td>
                             <td>{{ number_format($product->price) }}</td>
                             <td>{{ number_format($product->stock) }}</td>

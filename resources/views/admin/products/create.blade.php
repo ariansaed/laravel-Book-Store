@@ -1,5 +1,5 @@
 @extends('admin.layouts.app')
-    <script src="{{ asset('Admin-dist/js/create-form.js') }}"></script>
+<script src="{{ asset('Admin-dist/js/create-form.js') }}"></script>
 @section('content')
     <div class="main-content padding-0 categories">
         <div class="row no-gutters  ">
@@ -7,7 +7,8 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title"> ایجاد محصول </p>
-                <form id="store-form" action="{{ route('admin.products.store') }}" method="post" class="padding-30">
+                <form id="store-form" action="{{ route('admin.products.store') }}" method="post" class="padding-30"
+                    enctype="multipart/form-data">
                     @csrf
                     <label for="inputName">نام محصول</label>
                     <input type="text" name="name" id="inputName" required placeholder=" نام محصول " class="text">
@@ -26,6 +27,7 @@
                     <label for="inputPrice">قیمت محصول</label>
                     <input type="text" name="price" id="inputPrice" required placeholder=" قیمت "
                         class="text only-number">
+                    <label for="inputDescription">توضیحات</label>
                     <label for="inputStock"> موجودی</label>
                     <input type="text" name="stock" id="inputStock" required placeholder=" موجودی "
                         class="text only-number">

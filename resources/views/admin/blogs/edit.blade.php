@@ -7,14 +7,15 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title">ویرایش مطلب</p>
-                <form id="update-form" action="{{ route('admin.blogs.update', $blog) }}" method="post"
-                    class="padding-30">
+                <form id="update-form" action="{{ route('admin.blogs.update', $blog) }}" method="post" class="padding-30"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
-                   <label for="inputName">نام عنوان</label>
-                    <input type="text" value="{{ $blog->name }}" name="name" id="inputName" required placeholder=" نام عنوان " class="text">
-                    <label for="inputImage">عکس بلاگ</label>
-                    <input type="file" name="image" id="inputImage" placeholder=" عکس " class="text">
+                    <label for="inputName">عنوان مطلب</label>
+                    <input type="text" value="{{ $blog->name }}" name="name" id="inputName" required
+                        placeholder=" نام عنوان " class="text">
+                    <label for="inputImage">عکس مطلب</label>
+                    <input type="file" name="image" id="inputImage" placeholder=" تصویر " class="text">
                     <label for="inputDescription">توضیحات</label>
                     <textarea type="text" id="inputDescription" style="max-width: 100%; max-height: 100px" name="description" required
                         placeholder=" توضیحات " class="text">{{ $blog->description }}</textarea>

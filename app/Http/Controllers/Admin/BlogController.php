@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\UploadHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BlogStoreRequest;
 use App\Http\Requests\BlogUpadateRequest;
@@ -9,7 +10,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\blog;
 use Illuminate\Support\Facades\Log;
-use PhpParser\Node\Stmt\TryCatch;
 
 class BlogController extends Controller
 {
@@ -32,6 +32,9 @@ class BlogController extends Controller
         try {
             $data = $request->validated();
             $data['slug'] = Str::slug($data['name']);
+            if ($request->hasFile('image')) {
+                $data['image'] = UploadHelper::UploadImage($request->file('image'), 'blog_image');
+            }
             blog::create($data);
             $message = 'عملیات با موفقیت ایجاد شد';
             if ($request->wantsJson() || $request->ajax()) {
@@ -67,7 +70,16 @@ class BlogController extends Controller
     {
         try {
             $data = $request->validated();
-            $blog->update($data);
+            $blog->name = $data['name'];
+            $blog->description = $data['description'];
+            if ($request->hasFile('image')) {
+                $imagePath = UploadHelper::UploadImage($request->file('image'), 'blog_image');
+                if ($blog->image) {
+                    UploadHelper::DeleteImage($blog->image);
+                }
+                $blog->image = $imagePath;
+            }
+            $blog->save();
             return response()->json([
                 'status' => 'success',
                 'message' => 'ویرایش موفقیت آمیز'

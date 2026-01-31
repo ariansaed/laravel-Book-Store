@@ -10,8 +10,8 @@
                 <tr role="row" class="title-row">
                     <th>شناسه</th>
                     <th>نام </th>
+                    <th> تصویر </th>
                     <th> توضیحات </th>
-                    <th> عکس </th>
                     <th>حذف</th>
                     <th>ویرایش</th>
                 </tr>
@@ -22,7 +22,13 @@
                         <tr role="row">
                             <td>{{ $loop->index + 1 }}</td>
                             <td>{{ $blog->name }}</td>
-                            <td>{{ $blog->image ? $blog->image : 'بدون عکس' }}</td>
+                            <td>
+                                @if ($blog->image)
+                                    <img src="{{ asset('storage/' . $blog->image) }}" alt="{{ $blog->image }}" style="max-width: 100px;" />
+                                @else
+                                    بدون تصویر
+                                @endif
+                            </td>
                             <td>{{ $blog->description }}</td>
                             <td>
                                 @if ($blog->trashed())

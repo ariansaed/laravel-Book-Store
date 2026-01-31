@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('script')
-<script src="{{ asset('Admin-dist/js/update-form.js') }}"></script>
+    <script src="{{ asset('Admin-dist/js/update-form.js') }}"></script>
 @endsection
 @section('content')
     <div class="main-content padding-0 categories">
@@ -9,8 +9,8 @@
             </div>
             <div class="col-6 bg-white">
                 <p class="box__title"> ایجاد محصول </p>
-                <form id="update-form" action="{{ route('admin.products.update', $product) }}" method="post"
-                    class="padding-30">
+                <form id="update-form" action="{{ route('admin.products.update', $product) }}" method="post" class="padding-30"
+                    enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <label for="inputName">نام محصول</label>

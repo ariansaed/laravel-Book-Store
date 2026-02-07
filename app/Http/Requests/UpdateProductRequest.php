@@ -29,6 +29,7 @@ class UpdateProductRequest extends FormRequest
             'description' => 'nullable|string',
             'price'       => 'required|numeric|min:0',
             'stock'       => 'required|integer|min:0',
+            'slider'     => 'nullable|in:on',
         ];
     }
     protected function prepareForValidation()

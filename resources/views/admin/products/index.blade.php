@@ -14,6 +14,7 @@
                     <th> دسته بندی </th>
                     <th>قیمت</th>
                     <th>موجودی</th>
+                    <th>اسلایدر</th>
                     <th>تاریخ</th>
                     <th>درج کننده</th>
                     <th>حذف</th>
@@ -33,6 +34,7 @@
                             <td>{{ $product->category->name }}</td>
                             <td>{{ number_format($product->price) }}</td>
                             <td>{{ number_format($product->stock) }}</td>
+                            <td>{{ $product->slider }}</td>
                             <td>{{ $product->crated_at }}</td>
                             <th>{{ $product->user->name }}</th>
                             <td>

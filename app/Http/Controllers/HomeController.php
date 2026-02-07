@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\product;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,9 @@ class HomeController extends Controller
      */
     public function home()
     {
-        return view('front.index');
+        $sliderProducts = product::where('slider', true)->latest()->limit(6)->get();
+        $products = product::latest()->limit(8)->get();
+        return view('front.index', compact('sliderProducts', 'products'));
     }
 
 //    public function welcome()

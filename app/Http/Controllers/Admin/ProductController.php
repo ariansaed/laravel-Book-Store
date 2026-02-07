@@ -7,11 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\product;
-use App\Models\User;
 use App\Models\category;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
@@ -32,24 +29,25 @@ class ProductController extends Controller
         $categories = Category::orderBy('name')->get();
         return view('admin.products.create', compact('categories'));
     }
-    public function store(StoreProductRequest $request)
+    public function store(StoreProductRequest $request, Product $product)
     {
-        try {
-            $data = $request->validated();
-            $data['slug'] = Str::slug($data['name']);
-            $data['user_id'] = Auth::id();
-            if ($request->hasFile('image')) {
-                $data = UploadHelper::UploadImage($request->file('image'), 'product_image');
-            }
-            Product::create($data);
-            $message = 'محصول با موفقیت ایجاد شد';
-            if ($request->wantsJson() || $request->ajax()) {
-                return response()->json([
-                    'status' => 'success',
-                    'message' => $message,
-                ], 201);
-            }
-            return redirect()->back()->with('success', $message);
+         try {
+        $data = $request->validated();
+        $data['slug'] = product::UniqueSlug($data['name']);
+        $data['slider'] = (isset($data['slider']) && $data['slider'] == "on") ? 1 : 0;
+        $data['user_id'] = Auth::id();
+        if ($request->hasFile('image')) {
+            $data['image'] = UploadHelper::UploadImage($request->file('image'), 'product_image');
+        }
+        Product::create($data);
+        $message = 'محصول با موفقیت ایجاد شد';
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'status' => 'success',
+                'message' => $message,
+            ], 201);
+        }
+        return redirect()->back()->with('success', $message);
         } catch (\Exception $e) {
             Log::error('خطا در ایجاد محصول: ' . $e->getMessage(), [
                 'trace' => $e->getTraceAsString(),
@@ -82,6 +80,7 @@ class ProductController extends Controller
             $product->name = $data['name'];
             $product->category_id = $data['category_id'];
             $product->description = $data['description'];
+            $product->slider = (isset($data['slider']) && $data['slider'] == "on") ? 1 : 0;
             if ($request->hasFile('image')) {
                 $imagePath = UploadHelper::UploadImage($request->file('image'), 'product_image');
                 if ($product->image) {

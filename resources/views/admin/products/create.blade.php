@@ -31,7 +31,11 @@
                     <label for="inputStock"> موجودی</label>
                     <input type="text" name="stock" id="inputStock" required placeholder=" موجودی "
                         class="text only-number">
-                    <input type="submit" class="btn btn-netcopy_net" value="اضافه کردن">
+                        <div class="notificationGroup">
+                            <input id="slider" name="slider" type="checkbox" />
+                            <label for="slider">نمایش دراسلاید</label>
+                        </div>
+                        <input type="submit" class="btn btn-netcopy_net" value="اضافه کردن">
                 </form>
                 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
                 <script>

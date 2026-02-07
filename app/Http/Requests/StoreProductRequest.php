@@ -14,12 +14,13 @@ class StoreProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-           'name' => 'required|string|max:255|unique:products,name',
+            'name' => 'required|string|max:255|unique:products,name',
             'category_id' => 'required|exists:categories,id',
             'image' => 'nullable|image|max:2048',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
+            'slider' => 'nullable|in:on',
         ];
     }
 
@@ -36,7 +37,7 @@ class StoreProductRequest extends FormRequest
     }
     protected function failedValidation(Validator $validator)
     {
-         $errors = $validator->errors()->all();
+        $errors = $validator->errors()->all();
 
         throw new HttpResponseException(
             response()->json([

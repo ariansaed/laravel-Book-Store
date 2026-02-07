@@ -3,20 +3,20 @@
 @section('content')
     <div class="login-form-container">
         <div id="close-login-btn" class="fas fa-times"></div>
-{{--        <form action="">--}}
-{{--            <h3>ورود</h3>--}}
-{{--            <span>نام کاربری</span>--}}
-{{--            <input type="email" name="" class="box" placeholder="ایمیل خود را وارد کنید" id="">--}}
-{{--            <span>رمز عبور</span>--}}
-{{--            <input type="password" name="" class="box" placeholder="رمز عبور خود را وارد کنید" id="">--}}
-{{--            <div class="checkbox">--}}
-{{--                <input type="checkbox" name="" id="remember-me">--}}
-{{--                <label for="remember-me"> به خاطر سپردن</label>--}}
-{{--            </div>--}}
-{{--            <input type="submit" value="sign in" class="btn">--}}
-{{--            <p>رمز خود را فراموش کرده اید ؟ <a href="#">اینجا کلیک کنید</a></p>--}}
-{{--            <p>ثبت نام نکرده اید ؟ <a href="#">ساخت حساب</a></p>--}}
-{{--        </form>--}}
+        {{--        <form action=""> --}}
+        {{--            <h3>ورود</h3> --}}
+        {{--            <span>نام کاربری</span> --}}
+        {{--            <input type="email" name="" class="box" placeholder="ایمیل خود را وارد کنید" id=""> --}}
+        {{--            <span>رمز عبور</span> --}}
+        {{--            <input type="password" name="" class="box" placeholder="رمز عبور خود را وارد کنید" id=""> --}}
+        {{--            <div class="checkbox"> --}}
+        {{--                <input type="checkbox" name="" id="remember-me"> --}}
+        {{--                <label for="remember-me"> به خاطر سپردن</label> --}}
+        {{--            </div> --}}
+        {{--            <input type="submit" value="sign in" class="btn"> --}}
+        {{--            <p>رمز خود را فراموش کرده اید ؟ <a href="#">اینجا کلیک کنید</a></p> --}}
+        {{--            <p>ثبت نام نکرده اید ؟ <a href="#">ساخت حساب</a></p> --}}
+        {{--        </form> --}}
     </div>
     <!-- home section starts  -->
     <section class="home" id="home">
@@ -29,14 +29,12 @@
             </div>
             <div class="swiper books-slider">
                 <div class="swiper-wrapper">
-                    <a href="#" class="swiper-slide"><img src="{{asset('Book-dist/image/book-1.png')}}" alt=""></a>
-                    <a href="#" class="swiper-slide"><img src="{{asset('Book-dist/image/book-2.png')}}" alt=""></a>
-                    <a href="#" class="swiper-slide"><img src="{{asset('Book-dist/image/book-3.png')}}" alt=""></a>
-                    <a href="#" class="swiper-slide"><img src="{{asset('Book-dist/image/book-4.png')}}" alt=""></a>
-                    <a href="#" class="swiper-slide"><img src="{{asset('Book-dist/image/book-5.png')}}" alt=""></a>
-                    <a href="#" class="swiper-slide"><img src="{{asset('Book-dist/image/book-6.png')}}" alt=""></a>
+                    @foreach ($sliderProducts as $product)
+                        <a href="#" class="swiper-slide"><img src="{{ asset('storage/' . $product->image) }}"
+                                alt="{{ $product->name }}"></a>
+                    @endforeach
                 </div>
-                <img src="{{asset('Book-dist/image/stand.png')}}" class="stand" alt="">
+                <img src="{{ asset('Book-dist/image/stand.png') }}" class="stand" alt="">
             </div>
         </div>
     </section>
@@ -78,156 +76,23 @@
         <h1 class="heading"><span>کتابهای برجسته</span></h1>
         <div class="swiper featured-slider">
             <div class="swiper-wrapper">
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-1.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-2.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
+                @foreach ($products as $product)
+                    <div class="swiper-slide box">
+                        <div class="icons">
+                            <a href="#" class="fas fa-search"></a>
+                            <a href="#" class="fas fa-heart"></a>
+                            <a href="#" class="fas fa-eye"></a>
+                        </div>
+                        <div class="image">
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
+                        </div>
+                        <div class="content">
+                            <h3>{{ Str::limit($product->name, 20) }}</h3>
+                            <div class="price">{{ number_format($product->price) }} هزار تومان </div>
+                            <a href="#" class="btn">اضافه کردن به سبد خرید</a>
                     </div>
                 </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-3.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-4.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-5.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-6.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-7.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-8.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-9.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
-                <div class="swiper-slide box">
-                    <div class="icons">
-                        <a href="#" class="fas fa-search"></a>
-                        <a href="#" class="fas fa-heart"></a>
-                        <a href="#" class="fas fa-eye"></a>
-                    </div>
-                    <div class="image">
-                        <img src="{{asset('Book-dist/image/book-10.png')}}" alt="">
-                    </div>
-                    <div class="content">
-                        <h3>کتاب برجسته</h3>
-                        <div class="price">5 هزار تومان <span>10 هزارتومان</span></div>
-                        <a href="#" class="btn">اضافه کردن به سبد خرید</a>
-                    </div>
-                </div>
+                @endforeach
             </div>
             <div class="swiper-button-next"></div>
             <div class="swiper-button-prev"></div>
@@ -250,7 +115,7 @@
             <div class="swiper-wrapper">
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-1.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-1.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -266,7 +131,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-2.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-2.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -282,7 +147,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-3.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-3.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -298,7 +163,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-4.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-4.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -314,7 +179,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-5.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-5.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -334,7 +199,7 @@
             <div class="swiper-wrapper">
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-6.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-6.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -350,7 +215,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-7.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-7.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -366,7 +231,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-7.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-7.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -382,7 +247,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-7.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-7.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -398,7 +263,7 @@
                 </a>
                 <a href="#" class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/book-7.png')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/book-7.png') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>تازه رسیده ها</h3>
@@ -426,7 +291,7 @@
             <a href="#" class="btn">اکنون خرید کنید</a>
         </div>
         <div class="image">
-            <img src="{{asset('Book-dist/image/deal-img.jpg')}}" alt="">
+            <img src="{{ asset('Book-dist/image/deal-img.jpg') }}" alt="">
         </div>
     </section>
     <!-- deal section ends -->
@@ -436,7 +301,7 @@
         <div class="swiper reviews-slider">
             <div class="swiper-wrapper">
                 <div class="swiper-slide box">
-                    <img src="{{asset('Book-dist/image/pic-1.png')}}" alt="">
+                    <img src="{{ asset('Book-dist/image/pic-1.png') }}" alt="">
                     <h3>نام مشتری</h3>
                     <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
@@ -449,7 +314,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide box">
-                    <img src="{{asset('Book-dist/image/pic-2.png')}}" alt="">
+                    <img src="{{ asset('Book-dist/image/pic-2.png') }}" alt="">
                     <h3>نام مشتری</h3>
                     <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
@@ -462,7 +327,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide box">
-                    <img src="{{asset('Book-dist/image/pic-3.png')}}" alt="">
+                    <img src="{{ asset('Book-dist/image/pic-3.png') }}" alt="">
                     <h3>نام مشتری</h3>
                     <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
@@ -475,7 +340,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide box">
-                    <img src="{{asset('Book-dist/image/pic-4.png')}}" alt="">
+                    <img src="{{ asset('Book-dist/image/pic-4.png') }}" alt="">
                     <h3>نام مشتری</h3>
                     <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
@@ -488,7 +353,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide box">
-                    <img src="{{asset('Book-dist/image/pic-5.png')}}" alt="">
+                    <img src="{{ asset('Book-dist/image/pic-5.png') }}" alt="">
                     <h3>نام مشتری</h3>
                     <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
@@ -501,7 +366,7 @@
                     </div>
                 </div>
                 <div class="swiper-slide box">
-                    <img src="{{asset('Book-dist/image/pic-6.png')}}" alt="">
+                    <img src="{{ asset('Book-dist/image/pic-6.png') }}" alt="">
                     <h3>نام مشتری</h3>
                     <p>لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است
                         چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است </p>
@@ -524,7 +389,7 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/blog-1.jpg')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/blog-1.jpg') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>عنوان متن در اینجا</h3>
@@ -535,7 +400,7 @@
                 </div>
                 <div class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/blog-2.jpg')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/blog-2.jpg') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>عنوان متن در اینجا</h3>
@@ -546,7 +411,7 @@
                 </div>
                 <div class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/blog-3.jpg')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/blog-3.jpg') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>عنوان متن در اینجا</h3>
@@ -557,7 +422,7 @@
                 </div>
                 <div class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/blog-4.jpg')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/blog-4.jpg') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>عنوان متن در اینجا</h3>
@@ -568,7 +433,7 @@
                 </div>
                 <div class="swiper-slide box">
                     <div class="image">
-                        <img src="{{asset('Book-dist/image/blog-5.jpg')}}" alt="">
+                        <img src="{{ asset('Book-dist/image/blog-5.jpg') }}" alt="">
                     </div>
                     <div class="content">
                         <h3>عنوان متن در اینجا</h3>

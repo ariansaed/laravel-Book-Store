@@ -3,20 +3,6 @@
 @section('content')
     <div class="login-form-container">
         <div id="close-login-btn" class="fas fa-times"></div>
-        {{--        <form action=""> --}}
-        {{--            <h3>ورود</h3> --}}
-        {{--            <span>نام کاربری</span> --}}
-        {{--            <input type="email" name="" class="box" placeholder="ایمیل خود را وارد کنید" id=""> --}}
-        {{--            <span>رمز عبور</span> --}}
-        {{--            <input type="password" name="" class="box" placeholder="رمز عبور خود را وارد کنید" id=""> --}}
-        {{--            <div class="checkbox"> --}}
-        {{--                <input type="checkbox" name="" id="remember-me"> --}}
-        {{--                <label for="remember-me"> به خاطر سپردن</label> --}}
-        {{--            </div> --}}
-        {{--            <input type="submit" value="sign in" class="btn"> --}}
-        {{--            <p>رمز خود را فراموش کرده اید ؟ <a href="#">اینجا کلیک کنید</a></p> --}}
-        {{--            <p>ثبت نام نکرده اید ؟ <a href="#">ساخت حساب</a></p> --}}
-        {{--        </form> --}}
     </div>
     <!-- home section starts  -->
     <section class="home" id="home">
@@ -30,7 +16,7 @@
             <div class="swiper books-slider">
                 <div class="swiper-wrapper">
                     @foreach ($sliderProducts as $product)
-                        <a href="#" class="swiper-slide"><img src="{{ asset('storage/' . $product->image) }}"
+                        <a href="{{ route('products.show', $product) }}" class="swiper-slide"><img src="{{ asset('storage/' . $product->image) }}"
                                 alt="{{ $product->name }}"></a>
                     @endforeach
                 </div>
@@ -81,17 +67,21 @@
                         <div class="icons">
                             <a href="#" class="fas fa-search"></a>
                             <a href="#" class="fas fa-heart"></a>
-                            <a href="#" class="fas fa-eye"></a>
+                            <a href="{{ route('products.show', $product) }}" class="fas fa-eye"></a>
                         </div>
                         <div class="image">
                             <img src="{{ asset('storage/' . $product->image) }}" alt="{{ $product->name }}">
                         </div>
                         <div class="content">
                             <h3>{{ Str::limit($product->name, 20) }}</h3>
-                            <div class="price">{{ number_format($product->price) }} هزار تومان </div>
-                            <a href="#" class="btn">اضافه کردن به سبد خرید</a>
+                            <div class="price">{{ number_format($product->price) }} هزار تومان</div>
+                            @if ($product->stock > 0)
+                                <a href="#" class="btn">اضافه کردن به سبد خرید</a>
+                            @else
+                                <a href="#" class="btn btn-danger">اتمام موجودی</a>
+                            @endif
+                        </div>
                     </div>
-                </div>
                 @endforeach
             </div>
             <div class="swiper-button-next"></div>
@@ -113,7 +103,7 @@
         <h1 class="heading"><span>کتابهای جدید</span></h1>
         <div class="swiper arrivals-slider">
             <div class="swiper-wrapper">
-                <a href="#" class="swiper-slide box">
+                <a href="" class="swiper-slide box">
                     <div class="image">
                         <img src="{{ asset('Book-dist/image/book-1.png') }}" alt="">
                     </div>

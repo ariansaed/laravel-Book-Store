@@ -822,3 +822,71 @@ section {
 .float-right {
     float: right !important;
 }
+.btn-danger {
+    pointer-events: none;
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: rgb(238, 80, 80);
+}
+
+.pure-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* دکمه اصلی */
+.pure-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #27ae60; /* سفید */
+    color: #27ae60; /* متن سبز */
+    text-decoration: none;
+    border: 1px solid #27ae60;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+}
+
+.pure-dropdown-toggle i {
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+}
+
+.pure-dropdown:hover .pure-dropdown-toggle i {
+    transform: rotate(180deg);
+}
+
+/* منوی بازشونده */
+.pure-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    min-width: 200px;
+    background-color: #ffffff; /* سفید */
+    border: 1px solid #ddd;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.pure-dropdown:hover .pure-dropdown-menu {
+    display: block;
+}
+/* آیتم‌ها */
+.pure-dropdown-item {
+    display: block;
+    padding: 12px 20px;
+    color: #000000 !important; /* پیش‌فرض مشکی */
+    text-decoration: none;
+    transition: all 0.25s ease;
+    width: 100%;
+}
+/* هاور سبز */
+.pure-dropdown-item:hover {
+    background-color: #27ae60; /* سبز */
+    color: #ffffff !important; /* سفید */
+}

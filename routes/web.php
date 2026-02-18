@@ -7,13 +7,13 @@ use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
+route::resource('products', App\Http\Controllers\ProductController::class);
 
 Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () {
 
@@ -24,11 +24,11 @@ Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () 
     // روت دسته بندی ها
     Route::resource('categories', CategoryController::class);
     Route::post('categories/{category}/restore', [CategoryController::class, 'restore'])->name('categories.restore');
-    // روت محصولات 
+    // روت محصولات
     Route::resource('products', ProductController::class);
     Route::post('products/{slug}/restore', [ProductController::class, 'restore'])->name('products.restore');
     // روت بلاگ
     Route::resource('blogs', BlogController::class);
-    Route::post('blogs/{blog}/restore',[BlogController::class,'restore'])->name('blogs.restore');
+    Route::post('blogs/{blog}/restore', [BlogController::class, 'restore'])->name('blogs.restore');
 });
 route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

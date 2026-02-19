@@ -8,7 +8,7 @@ use App\Http\Requests\BlogStoreRequest;
 use App\Http\Requests\BlogUpadateRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use App\Models\blog;
+use App\Models\Blog;
 use Illuminate\Support\Facades\Log;
 
 class BlogController extends Controller
@@ -17,9 +17,9 @@ class BlogController extends Controller
     {
         $data = $request->all();
         if (isset($data['type']) && $data['type'] == 'deleted') {
-            $blogs = blog::onlyTrashed()->latest()->get();
+            $blogs = Blog::onlyTrashed()->latest()->get();
         } else {
-            $blogs = blog::latest()->get();
+            $blogs = Blog::latest()->get();
         }
         return view('admin.blogs.index', compact('blogs'));
     }
@@ -35,7 +35,7 @@ class BlogController extends Controller
             if ($request->hasFile('image')) {
                 $data['image'] = UploadHelper::UploadImage($request->file('image'), 'blog_image');
             }
-            blog::create($data);
+            Blog::create($data);
             $message = 'عملیات با موفقیت ایجاد شد';
             if ($request->wantsJson() || $request->ajax()) {
                 return response()->json([
@@ -62,7 +62,7 @@ class BlogController extends Controller
     {
         //
     }
-    public function edit(blog $blog)
+    public function edit(Blog $blog)
     {
         return view('admin.blogs.edit', compact('blog'));
     }
@@ -95,7 +95,7 @@ class BlogController extends Controller
             ], 500);
         }
     }
-    public function destroy(blog $blog)
+    public function destroy(Blog $blog)
     {
         try {
             $blog->delete();
@@ -112,7 +112,7 @@ class BlogController extends Controller
     }
     public function restore($slug)
     {
-        $blog = blog::onlyTrashed()->where('slug', $slug)->first();
+        $blog = Blog::onlyTrashed()->where('slug', $slug)->first();
         if (!$blog) {
             return response()->json([
                 'success' => false,

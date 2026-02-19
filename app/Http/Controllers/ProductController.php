@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\product;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -11,17 +11,18 @@ class ProductController extends Controller
     {
         $data = $request->all();
         if (isset($data['category'])) {
-            $products = product::whereHas('category', function ($q) use ($data) {
+            $products = Product::whereHas('category', function ($q) use ($data) {
                 $q->where('slug', $data['category']);
             })->latest()->get();
         } else {
-            $products = product::latest()->get();
+            $products = Product::latest()->get();
         }
 
         return view('home.products.index', compact('products'));
     }
-    public function show(product $product)
+    public function show(Product $product)
     {
+        $product->load('comment.user');
         return view('home.products.show',compact('product'));
     }
 }

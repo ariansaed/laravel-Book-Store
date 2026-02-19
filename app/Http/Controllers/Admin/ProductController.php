@@ -6,8 +6,8 @@ use App\Helpers\UploadHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
-use App\Models\product;
-use App\Models\category;
+use App\Models\Product;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -26,14 +26,14 @@ class ProductController extends Controller
     }
     public function create()
     {
-        $categories = Category::orderBy('name')->get();
+        $categories = category::orderBy('name')->get();
         return view('admin.products.create', compact('categories'));
     }
     public function store(StoreProductRequest $request, Product $product)
     {
          try {
         $data = $request->validated();
-        $data['slug'] = product::UniqueSlug($data['name']);
+        $data['slug'] = Product::UniqueSlug($data['name']);
         $data['slider'] = (isset($data['slider']) && $data['slider'] == "on") ? 1 : 0;
         $data['user_id'] = Auth::id();
         if ($request->hasFile('image')) {
@@ -67,7 +67,7 @@ class ProductController extends Controller
     {
         //
     }
-    public function edit(product $product)
+    public function edit(Product $product)
     {
         $categories = Category::orderBy('name')->get();
         return view('admin.products.edit', compact('product', 'categories'));

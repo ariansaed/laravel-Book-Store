@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Auth;
@@ -14,6 +15,7 @@ Auth::routes();
 
 Route::get('/', [HomeController::class, 'home'])->name('home');
 route::resource('products', App\Http\Controllers\ProductController::class);
+Route::post('/comment',[CommentController::class,'store'])->middleware('auth')->name('comment.store');
 
 Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () {
 

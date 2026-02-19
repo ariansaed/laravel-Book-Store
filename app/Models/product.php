@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Comment;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
-class product extends Model
+class Product extends Model
 {
     use SoftDeletes;
     protected $fillable = [
@@ -43,5 +45,9 @@ class product extends Model
     public function category()
     {
         return $this->belongsTo(category::class);
+    }
+    public function comment(): HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

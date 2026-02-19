@@ -890,3 +890,7 @@ section {
     background-color: #27ae60; /* سبز */
     color: #ffffff !important; /* سفید */
 }
+.my-swal {
+    width: 600px !important;
+    font-size: 25px;
+}

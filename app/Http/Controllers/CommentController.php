@@ -16,7 +16,7 @@ class CommentController extends Controller
             'product_id' => $request->product_id,
             'user_id' => Auth::id(),
         ]);
-        $message = 'نظر شما بعد از تایید نمایش داده میشود';
+        $message = 'نظر شما ثبت شد';
         if ($request->wantsJson() || $request->ajax()) {
             return response()->json([
                 'status' => 'success',

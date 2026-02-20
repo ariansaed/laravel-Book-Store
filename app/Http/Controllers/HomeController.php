@@ -1,11 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Models\product;
-use App\Models\User;
-use Illuminate\Http\Request;
-
+use App\Models\Product;
 class HomeController extends Controller
 {
     /**
@@ -25,8 +21,8 @@ class HomeController extends Controller
      */
     public function home()
     {
-        $sliderProducts = product::where('slider', true)->latest()->limit(6)->get();
-        $products = product::latest()->limit(8)->get();
+        $sliderProducts = Product::where('slider', true)->latest()->limit(6)->get();
+        $products = Product::latest()->limit(8)->get();
         return view('front.index', compact('sliderProducts', 'products'));
     }
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -22,6 +23,12 @@ class Product extends Model
         'user_id',
         'slider',
     ];
+      protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => verta($this->$value)->format('Y/m/d H:i'),
+        );
+    }
     public function getRouteKeyName()
     {
         return 'slug';

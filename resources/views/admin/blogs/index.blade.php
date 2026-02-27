@@ -12,6 +12,7 @@
                     <th>نام </th>
                     <th> تصویر </th>
                     <th> توضیحات </th>
+                    <th> تاریخ ثبت </th>
                     <th>حذف</th>
                     <th>ویرایش</th>
                 </tr>
@@ -30,6 +31,7 @@
                                 @endif
                             </td>
                             <td>{{ $blog->description }}</td>
+                            <td>{{ $blog->created_at }}</td>
                             <td>
                                 @if ($blog->trashed())
                                     <a href="#" data-url="{{ route('admin.blogs.restore', $blog) }}"

@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\CommentController as AdminCommentController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\CommentController;
@@ -32,5 +33,7 @@ Route::middleware(('auth'))->prefix('panel')->name('admin.')->group(function () 
     // روت بلاگ
     Route::resource('blogs', BlogController::class);
     Route::post('blogs/{blog}/restore', [BlogController::class, 'restore'])->name('blogs.restore');
+
+    Route::resource('comments',AdminCommentController::class);
 });
 route::get('/logout', [LogoutController::class, 'logout'])->name('logout');

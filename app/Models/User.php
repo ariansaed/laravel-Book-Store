@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,6 +26,12 @@ class User extends Authenticatable
         'password',
         'role'
     ];
+     protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn (string $value) => verta($this->$value)->format('Y/m/d H:i'),
+        );
+    }
 
     /**
      * The attributes that should be hidden for serialization.

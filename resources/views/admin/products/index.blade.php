@@ -35,7 +35,7 @@
                             <td>{{ number_format($product->price) }}</td>
                             <td>{{ number_format($product->stock) }}</td>
                             <td>{{ $product->slider }}</td>
-                            <td>{{ $product->crated_at }}</td>
+                            <td>{{ $product->created_at }}</td>
                             <th>{{ $product->user->name }}</th>
                             <td>
                                 @if ($product->trashed())

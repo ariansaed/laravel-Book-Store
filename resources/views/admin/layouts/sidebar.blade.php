@@ -41,6 +41,10 @@
         <li class="item-li i-courses {{ Route::is('admin.blogs.index') ? 'is-active' : '' }}">
             <a href="{{ route('admin.blogs.index') }}">لیست بلاگ ها</a>
         </li>
+        <li class="item-li i-comments {{ Route::is('admin.comments.index') ? 'is-active' : '' }}"><a
+                href="{{ route('admin.comments.index') }}">
+                نظرات</a></li>
+
 
 
 

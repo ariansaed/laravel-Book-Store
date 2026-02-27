@@ -22,6 +22,7 @@ class ProductController extends Controller
     }
     public function show(Product $product)
     {
+        
         $product->load('comment.user');
         return view('home.products.show',compact('product'));
     }

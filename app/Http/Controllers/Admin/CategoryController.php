@@ -78,7 +78,7 @@ class CategoryController extends Controller
             $category->name = $data['name'];
             $category->save();
             return redirect()->back()->with('success', 'اطلاعات با موفقیت ویرایش شد');
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             Log::error('Category Update Error: ' . $e->getMessage());
             return redirect()->back()->with('error', 'خطا در ویرایش اطلاعات!');
         }

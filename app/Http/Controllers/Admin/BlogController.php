@@ -84,7 +84,7 @@ class BlogController extends Controller
                 'status' => 'success',
                 'message' => 'ویرایش موفقیت آمیز'
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             Log::error('خطا در بروزرسانی مطلب', [
                 'error'      => $e->getMessage(),
                 'trace'      => $e->getTraceAsString(),
@@ -103,7 +103,7 @@ class BlogController extends Controller
                 'success' => true,
                 'message' => 'مطلب با موفقیت حذف شد'
             ], 200);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'خطا در حذف مطلب'

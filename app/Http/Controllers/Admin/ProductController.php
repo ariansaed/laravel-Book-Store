@@ -95,7 +95,7 @@ class ProductController extends Controller
                 'status'  => 'success',
                 'message' => 'محصول با موفقیت ویرایش شد',
             ], 200);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             // ✅ لاگ برای دیباگ
             Log::error('خطا در بروزرسانی محصول', [
                 'product_id' => $product->id,
@@ -116,7 +116,7 @@ class ProductController extends Controller
                 'success' => true,
                 'message' => 'محصول با موفقیت حذف شد',
             ], 200);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'خطا در حذف محصول',

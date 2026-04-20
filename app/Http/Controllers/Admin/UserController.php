@@ -87,7 +87,7 @@ class UserController extends Controller
             return redirect()
                 ->route('admin.users.index')
                 ->with('success', 'اطلاعات با موفقیت ویرایش شد.');
-        } catch (\Throwable $th) {
+        } catch (\Exception $th) {
             Log::error('User Update Error: ' . $th->getMessage());
             return redirect()
                 ->back()
@@ -104,7 +104,7 @@ class UserController extends Controller
                 'success' => true,
                 'message' => 'کاربر با موفقیت حذف شد.',
             ], 200);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
 
             return response()->json([
                 'success' => false,
@@ -128,7 +128,7 @@ class UserController extends Controller
                 'success' => true,
                 'message' => 'کاربر با موفقیت بازیابی شد.',
             ]);
-        } catch (\Throwable $e) {
+        } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
                 'message' => 'خطا در بازیابی کاربر',
